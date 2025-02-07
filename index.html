@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⬛️👁️</title>
+    <style>
+        body {
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000000;
+        }
+
+        #magic8-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 250px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #34495e;
+        }
+
+        canvas {
+            display: block;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div id="magic8-container">
+        <h1>Ask the Magic 8 Cube!</h1>
+        <input type="text" id="question" placeholder="Ask a yes/no question...">
+        <button onclick="askQuestion()">Ask The cube</button>
+        <div id="answer"></div>
+    </div>
+
+    <canvas id="magic8-cube"></canvas>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        let scene, camera, renderer, cube;
+        let isSpinning = false;
+
+        // Setup Three.js scene
+        function initThreeJS() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10);
+            renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('magic8-cube') });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            const geometry = new THREE.BoxGeometry(4, 4, 4);
+            const material = new THREE.MeshBasicMaterial({ color: 0x00aaff, wireframe: true });
+            cube = new THREE.Mesh(geometry, material);
+            scene.add(cube);
+
+            camera.position.z = 5;
+
+            animate();
+        }
+
+        // Animate the cube
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (isSpinning) {
+                cube.rotation.x += 0.01;
+                cube.rotation.y += 0.01;
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        // Ask question and show random response
+        function askQuestion() {
+            const responses = [
+                "Yes, absolutely!🧐😀😀",
+                "Yes, of course!",
+                "Why not?",
+                "No way!",
+                "Maybe, try again.",
+                "Idk",
+                "Definitely not.😈😈",
+                "It’s a secret.🤫",
+                "Ask again later.",
+                "For sure!🙌",
+                "Absolutely not!❌",
+                "Could be, who knows?",
+                "I wouldn't count on it.",
+                "Most likely, yes!",
+                "Not in a million years.💀",
+                "I wouldn’t bet on it.",
+                "Yes, without a doubt.",
+                "No chance.🚫",
+                "Definitely!👀",
+                "I don't think so.",
+                "Perhaps... maybe!",
+                "Highly unlikely.🤷‍♂️",
+                "You bet!🔥",
+                "Don't hold your breath.💨",
+                "Yes, but only if...🤔",
+                "Not a chance in hell.👹",
+                "Sure thing!✅",
+                "Nope, not happening.",
+                "Yes, I'm certain.",
+                "Unlikely, but possible.",
+                "It’s a hard no.👎",
+                "Yes, totally!🤩",
+                "I have doubts. 🤨",
+                "Yes, but with conditions.",
+                "Not even close.",
+                "Yes, it's a guarantee.",
+                "No, absolutely not.❌",
+                "Count on it!💯",
+                "Don't count on it.❌",
+                "Yep, that's a yes!👊",
+                "Nah, not today.😜",
+                "It’s a yes for now!👍",
+                "Maybe tomorrow.",
+                "You’ve got this!💪",
+                "No way, Jose!👎",
+                "Could go either way...🤷‍♀️",
+                "Not likely.😬",
+                "Yes, with all my heart!❤️",
+                "Nope, better luck next time.",
+                "Absolutely!🔥",
+                "Not happening, sorry.😅",
+                "I’m leaning towards yes.🤞",
+                "Not today, Satan.😈",
+                "It’s a yes for sure.🤩",
+                "You might want to reconsider.💡",
+                "It’s a hard maybe.",
+                "You never know...👀",
+                "Positive vibes!🙌",
+                "Could be a long shot.🎯",
+                "Definitely, yes!🎉",
+                "No, not even a little.🛑",
+                "Totally, let's do it!💥",
+                "I'm not sure...😟",
+                "Not the best idea.❌",
+                "Yeah, why not? 🎉",
+                "I’m not convinced.😕",
+                "Sure, sounds good!🌟",
+                "Not really, no.🙅‍♂️",
+                "Yes, for sure!💯",
+                "I wouldn’t bet on it.⚖️",
+                "No way, buddy!🙄",
+                "Hmm, maybe later.⏳",
+                "Yes, but don’t hold me to it! 😜",
+                "You might want to rethink that.🤔",
+                "Totally not.❌",
+                "I’m not sure what to say.😬",
+                "Can’t say yes or no.🤷‍♂️",
+                "I’ll go with yes.👍",
+                "I’ll go with no.👎",
+                "Could be a no.🤔",
+                "Absolutely yes!🎉",
+                "Definite no.🚫",
+                "You might be right... maybe.💭",
+                "I’m going to say no.❌",
+                "Yes, but maybe not today.⏳",
+                "It’s a maybe... for now.👀",
+                "I'm going with no.🙃",
+                "I wouldn’t hold your breath.💨",
+                "It’s a yes from me!🤩",
+                "Definitely a no.❌",
+                "I’d say yes!🙌",
+                "Nope, I’m out.🙅‍♀️",
+                "Yes, but I’m not sure.🤔",
+                "Not sure how I feel about that.😕",
+                "Only time will tell...⏳",
+                "Probably not.🚫",
+                "Yes, with hesitation.🙃",
+                "Hard to say...🤷‍♀️",
+                "No, I wouldn’t count on it.👎",
+                "Sure, why not! 🎉",
+                "Not in the cards.📜",
+                "I’m leaning towards no.👎",
+                "Sounds good to me!👍",
+                "Not the best choice.⚠️",
+                "Can’t guarantee that.🤔",
+                "Yes, with a twist.🌀",
+                "Absolutely not, no way.🚫",
+                "Yes, but maybe later.⏳",
+                "It’s a maybe for now.👀",
+                "It’s a yes for sure.🤩",
+                "Could be a long shot.🎯",
+                "Definitely, yes!🎉",
+                "No, not even a little.🛑",
+                "Totally, let's do it!💥",
+                "I'm not sure...😟",
+                "Not the best idea.❌",
+                "Yeah, why not? 🎉",
+                "I’m not convinced.😕",
+                "Sure, sounds good!🌟",
+                "Not really, no.🙅‍♂️",
+                "I'll say yes, but...🧐",
+                "Definitely not today.🚫",
+                "Maybe, if you try harder!💪",
+                "I would say no, but...🤔",
+                "Can't tell you right now.👀",
+                "Definitely on the fence.🤷‍♂️",
+                "I wouldn’t count on it today.📅",
+                "I have a strong no.❌",
+                "Yes, but only on the right day.🌞",
+                "I’m leaning yes, but just barely.🤏",
+                "Not today, but maybe soon!⏰",
+                "It’s a confusing yes.😅",
+                "I feel like it’s a no.😕",
+                "Well, it's a 'maybe'... sort of.🤔",
+                "Yes, with a little hesitation.🤨",
+                "Maybe, but you have to convince me!💥",
+                "I'm still thinking about it.🤔",
+                "It’s a definite no from me!🚫",
+                "You know what, I’ll say yes.👍",
+                "skibidi bob bob yes yes oh wait its not 2023🤦‍♂️"
+            ];
+
+
+            const question = document.getElementById("question").value;
+            const answer = document.getElementById("answer");
+
+            if (question.trim() === "") {
+                answer.textContent = "Please ask a question!";
+                return;
+            }
+
+            answer.textContent = "The Magic 8 Cube is thinking...";
+            isSpinning = true;
+
+            // After 2 seconds, show the answer and stop the cube spinning
+            setTimeout(() => {
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                answer.textContent = randomResponse;
+                isSpinning = false;
+            }, 2000);
+        }
+
+        // Initialize everything
+        initThreeJS();
+    </script>
+</body>
+</html>
