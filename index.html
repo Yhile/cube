@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⬛️👁️</title>
-    <link rel="icon" href="Untitled design.png" type="image/x-icon"> <!-- Add this line for the favicon -->
+    <link rel="icon" href="Untitled design.png" type="image/x-icon">
     <style>
         body {
             color: white;
@@ -16,19 +16,27 @@
             height: 100vh;
             margin: 0;
             background-color: #000000;
+            padding: 10px; /* Prevent overflow issues */
+            box-sizing: border-box;
         }
 
         #magic8-container {
             text-align: center;
             margin-bottom: 20px;
+            width: 100%;
+            max-width: 500px; /* Limiting the maximum width of the container */
+            margin-left: auto;
+            margin-right: auto;
         }
 
         input[type="text"] {
-            width: 250px;
+            width: 100%;
+            max-width: 300px; /* Ensuring the textbox fits well on smaller screens */
             padding: 10px;
             font-size: 16px;
             border-radius: 5px;
             margin-bottom: 10px;
+            box-sizing: border-box;
         }
 
         button {
@@ -39,6 +47,8 @@
             border: none;
             cursor: pointer;
             border-radius: 5px;
+            width: 100%;
+            max-width: 300px;
         }
 
         button:hover {
@@ -48,6 +58,19 @@
         canvas {
             display: block;
             margin-top: 30px;
+            width: 100%;
+            height: auto;
+            max-width: 400px; /* Limit the canvas size */
+        }
+
+        @media (max-width: 768px) {
+            canvas {
+                max-width: 300px; /* Smaller canvas on smaller devices */
+            }
+
+            input[type="text"], button {
+                max-width: 250px; /* Slightly smaller inputs on mobile */
+            }
         }
     </style>
 </head>
@@ -55,7 +78,7 @@
     <div id="magic8-container">
         <h1>Ask the Magic 8 Cube!</h1>
         <input type="text" id="question" placeholder="Ask a yes/no question...">
-        <button onclick="askQuestion()">Ask The cube</button>
+        <button onclick="askQuestion()">Ask The Cube</button>
         <div id="answer"></div>
     </div>
 
@@ -74,7 +97,7 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             document.body.appendChild(renderer.domElement);
 
-            const geometry = new THREE.BoxGeometry(4, 4, 4);
+            const geometry = new THREE.BoxGeometry(2, 2, 2); // Made the cube smaller
             const material = new THREE.MeshBasicMaterial({ color: 0x00aaff, wireframe: true });
             cube = new THREE.Mesh(geometry, material);
             scene.add(cube);
@@ -241,7 +264,6 @@
                 "skibidi bob bob yes yes oh wait its not 2023🤦‍♂️"
             ];
 
-
             const question = document.getElementById("question").value;
             const answer = document.getElementById("answer");
 
@@ -253,7 +275,6 @@
             answer.textContent = "The Magic 8 Cube is thinking...";
             isSpinning = true;
 
-            // After 2 seconds, show the answer and stop the cube spinning
             setTimeout(() => {
                 const randomResponse = responses[Math.floor(Math.random() * responses.length)];
                 answer.textContent = randomResponse;
@@ -266,4 +287,3 @@
     </script>
 </body>
 </html>
-
