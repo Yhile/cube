@@ -97,7 +97,7 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             document.body.appendChild(renderer.domElement);
 
-            const geometry = new THREE.BoxGeometry(2, 2, 2); // Made the cube smaller
+            const geometry = new THREE.BoxGeometry(4, 4, 4); // Made the cube smaller
             const material = new THREE.MeshBasicMaterial({ color: 0x00aaff, wireframe: true });
             cube = new THREE.Mesh(geometry, material);
             scene.add(cube);
