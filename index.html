@@ -94,10 +94,10 @@
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10);
             renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('magic8-cube') });
-            renderer.setSize(window.innerWidth, window.innerHeight);
             document.body.appendChild(renderer.domElement);
+            renderer.setSize(window.innerWidth, window.innerHeight);
 
-            const geometry = new THREE.BoxGeometry(4, 4, 4); // Made the cube smaller
+            const geometry = new THREE.BoxGeometry(4, 4, 4); // Cube with equal dimensions
             const material = new THREE.MeshBasicMaterial({ color: 0x00aaff, wireframe: true });
             cube = new THREE.Mesh(geometry, material);
             scene.add(cube);
@@ -105,6 +105,19 @@
             camera.position.z = 5;
 
             animate();
+
+            // Listen for window resize and adjust the aspect ratio
+            window.addEventListener('resize', onWindowResize, false);
+        }
+
+        // Adjust the camera and renderer on window resize
+        function onWindowResize() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            renderer.setSize(width, height);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
         }
 
         // Animate the cube
