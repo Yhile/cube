@@ -76,7 +76,7 @@
 </head>
 <body>
     <div id="magic8-container">
-        <h1>Ask the Magic 8 Cube!</h1>
+        <h1>Ask The Cube...</h1>
         <input type="text" id="question" placeholder="Ask a yes/no question...">
         <button onclick="askQuestion()">Ask The Cube</button>
         <div id="answer"></div>
@@ -285,14 +285,14 @@
                 return;
             }
 
-            answer.textContent = "The Magic 8 Cube is thinking...";
+            answer.textContent = "Cube is thinking...";
             isSpinning = true;
 
             setTimeout(() => {
                 const randomResponse = responses[Math.floor(Math.random() * responses.length)];
                 answer.textContent = randomResponse;
                 isSpinning = false;
-            }, 20000);
+            }, 2000);
         }
 
         // Initialize everything
