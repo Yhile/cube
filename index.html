@@ -291,8 +291,8 @@
             setTimeout(() => {
                 const randomResponse = responses[Math.floor(Math.random() * responses.length)];
                 answer.textContent = randomResponse;
-                isSpinning = true;
-            }, 2000);
+                isSpinning = false;
+            }, 20000);
         }
 
         // Initialize everything
